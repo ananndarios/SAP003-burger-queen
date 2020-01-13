@@ -1,0 +1,102 @@
+@media only screen and (max-width: 600px) {
+  body {
+    background-color:#00009C;
+  }
+}
+
+body{
+  text-align: center!important;
+}
+
+.title {
+  float: none;
+  margin: 0 auto!important;
+  margin-bottom: 8px!important;
+  text-align: center;
+  padding: 10px 5px 0px 0px;
+  background-color: #FF7F00;
+  display: flex;
+  border-radius: 10px;
+  width: 50%;
+  justify-content: space-evenly;
+
+
+}
+
+.section {
+  color: black;
+}
+
+.client{
+  color: black;
+}
+
+.menu{
+height: 100px;
+width: 100px;
+color: black;
+background-color: white;
+border-radius: 10px;
+margin: 5px;
+align-items: center;
+justify-content: space-evenly;
+}
+
+.nav-bar{
+  background-color: white;
+  justify-content: space-evenly;
+}
+
+.btn-add{
+  float: none;
+  margin: 0 auto!important;
+  height: 30px;
+  background-color: #FF7F00;
+  width: 150px;
+  margin-bottom: 8px!important;
+  font: italic 20px Arial;
+  color: black;
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px 5px 0px 0px;
+
+}
+
+.btn-del{
+  float: none;
+  margin: 0 auto!important;
+  height: 30px;
+  background-color: #FF7F00;
+  width: 150px;
+  margin-bottom: 8px!important;
+  font: italic 20px Arial;
+  color: black;
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px 5px 0px 0px;
+
+}
+
+.input{
+  float: none;
+  margin: 0 auto!important;
+  height: 100px;
+  background-color: #FF7F00;
+  width: 180px;
+  padding: 5px;
+  margin-bottom: 8px!important;
+  font: italic 20px Arial;
+  color: black;
+  border-radius: 10px;
+  align-items: center;
+  padding: 10px 5px 0px 0px;
+
+}
+
+ul {
+  list-style-type: none;
+  }
+
+  li {
+    list-style-type: none;
+    }

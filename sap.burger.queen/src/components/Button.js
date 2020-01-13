@@ -1,9 +1,16 @@
 import React from 'react';
+import '../css/bootstrap.css';
+
 
 const Button = (props) => {
-    
-    return (
-        <button className={props.class} onClick={props.onClick}>{props.title}</button>
+    function handleButton (event){
+        event.preventDefault()
+        props.onClick()
+    };
+
+    return(
+        <button className={props.class} onClick={(e) => handleButton(e)} >{props.children}</button>
+
     );
 };
 
