@@ -9,7 +9,7 @@ const Menu = (props) => {
 
         <div className="col-xs-12">
             <Button className='btn btn-primary' onClick={props.onClick}> 
-                <span className='menu-name'> {props.name}</span>
+                <span className='text-muted'> {props.name}</span>
                 <span className='menu-price'> R$ {props.price}</span>
                 {
                     props.count

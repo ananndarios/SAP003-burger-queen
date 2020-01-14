@@ -5,7 +5,7 @@ const ResumeItem = (props) => {
     return (
         <>
             <div className="resume-item">
-                <span className="text-muted"> {props.name} </span>
+                <span className="text-secondary"> {props.name} </span>
                 <span className="text-muted"> R$ {props.price}</span>
                 {
                     props.count

@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import '../css/bootstrap.css'
 import db from '../utils/firebaseconfig';
+import Button from '../components/Button';
 
 
 function Cozinha(props) {
 
     const [pedidos, setPedidos] = useState([]);
+    const [pronto, setPronto] = useState([]);
 
     useEffect(() => {
         db.collection('pedidos').orderBy('timeSend')
@@ -22,14 +24,19 @@ function Cozinha(props) {
 
     const confirmOrders = (item) => {
 
+
         db.collection('pedidos').doc(item.id).update({
             status: 'deliver',
-            timeDone: new Date(),
-            timeDateD: new Date().getDate(),
-            timeHourD: new Date().getHours(),
-            timeMinD: new Date().getMinutes(),
-            timeSecD: new Date().getSeconds(),
+            timeDone: new Date().getTime(),
+
         })
+            .then(() => {
+                setPronto([...pronto, { ...item, status: 'deliver', timeDone: new Date().getTime() }]);
+            })
+            if(item.status === 'deliver'){
+                const index = pedidos.findIndex((i) => i.id === item.id)
+                pedidos.splice(index, 1);
+            }
     }
 
     return (
@@ -43,18 +50,19 @@ function Cozinha(props) {
 
                                 {item.status === 'inProgress' ?
                                     <div className="col-xs-12">
+                                        <p>{'Cliente: ' + item.client}</p>
                                         <p>{' Mesa: ' + item.table}</p>
                                         {item.pedidos.map((products, index) =>
                                             <div key={index} className="col-xs-12">
 
-                                                <fieldset clasName="form-group">
+                                                <fieldset className="form-group">
                                                     <div className="form-check col-xs-12">
                                                         <label className="form-check-label"></label>
                                                     </div>
-                                                    <div class="form-check disabled">
-                                                        <label class="form-check-label">
+                                                    <div className="form-check disabled">
+                                                        <label className="form-check-label">
                                                             <input type="checkbox"
-                                                                class="form-check-input"
+                                                                className="form-check-input"
                                                                 name="optionsRadios"
                                                                 id="optionsRadios3"
                                                                 value="option3"
@@ -63,30 +71,24 @@ function Cozinha(props) {
                                                         </label>
                                                     </div>
                                                 </fieldset>
-
+                                                
                                                 {products.type === 'hamburger' ?
-                                                    <div className="col-xs-12">
-                                                        <p>{'Quantidade: ' + products.count} - {products.name}</p>
-                                                        <div className="col-xs-12">
-                                                            <p>{'Hambúrguer: ' + products.meetSelect}</p>
-                                                        </div>
+                                                    <div>
+                                                    <p>{'Quantidade: ' + products.count} - {products.name}</p>
                                                     </div>
                                                     :
                                                     <p>{'Quantidade: ' + products.count} - {products.name}</p>
                                                 }
-
-                                            </div>
-
-                                        )}
-                                        <button className="btn-primary" onClick={() => confirmOrders(item)}> Confirmar </button>
-
-                                    </div>
+                                                
+                                                </div>
+                                            )}
+                                        <Button className="btn-primary" onClick={() => confirmOrders(item)}> Confirmar </Button> <hr />
+                                       </div>
                                     : null}
                             </div>
                         )}
                     </div>
                 </fieldset>
-
             </form>
         </>
     );

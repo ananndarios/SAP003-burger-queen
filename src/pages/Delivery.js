@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import '../css/bootstrap.css'
 import db from '../utils/firebaseconfig';
 import Button from '../components/Button';
-
+const hmh = require('hmh');
 
 function Delivery() {
 
     const [delivery, setDelivery] = useState([]);
   
     useEffect(() => {
-      db.collection('pedidos').orderBy('timeDone')
+      db.collection('pedidos').where('status', '==', 'deliver')
         .onSnapshot((snap) => {
           const list = snap.docs.map((doc) => ({
             id: doc.id,
@@ -22,50 +22,28 @@ function Delivery() {
     const finish = (item) => {
       db.collection('pedidos').doc(item.id).update({
           status: 'conclud',
-          timeConclud: new Date(),
-          timeHourC: new Date().getHours(),
-          timeMinC: new Date().getMinutes(),
-          timeSecC: new Date().getSeconds(),
+          timeConclud: new Date().getTime(),
         })
     }
   
-    const time = (item) => {
-      let seconds;
-      let rest;
-  
-      if (((item.timeDateS)) === ((item.timeDateD))) {
-        seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD)) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
-      }
-      else {
-        seconds = (((item.timeHourD * 3600) + (item.timeMinD * 60) + (item.timeSecD) + 86400) - ((item.timeHourS * 3600) + (item.timeMinS * 60) + (item.timeSecS)))
-      }
-  
-      let horas = Math.floor(seconds / (60 * 60));
-      rest = seconds % (60 * 60);
-  
-      let minutos = Math.floor(rest / 60);
-      rest %= 60;
-  
-      let segundos = Math.ceil(rest);
-  
-      let hora = [horas + ' h, ', minutos + ' m e ', segundos + ' s.']
-      return hora;
-    }
-  
-  
     return (
-      <div>
-        <h1 >Pedidos Prontos </h1>
-        {delivery.map((item, index) =>
-          <div key={index}>
-  
+      <form className="form-group col-xs-12 jumbotron">
+        <fieldset className="form-group">
+      <div className="col-xs-12">
+        <legend>Pedidos Prontos </legend>
+        {delivery.map((item, index) => {
+          const sendHour = `${new Date(item.timeSend).getHours()}h ${new Date(item.timeSend).getMinutes()}min`;
+          const sendDelivery = `${new Date(item.timeDone).getHours()}h ${new Date(item.timeDone).getMinutes()}min`;
+          const different = (hmh.diff(`${sendHour}`, `${sendDelivery}`).toString())
+          return(
+          <div key={index}>  
             {item.status === 'deliver' ?
               <div>
                 <p>{'Mesa ' + item.table} - {item.client}</p>
                 <div>
-                  <div>
+                   <div>
   
-                    {item.resumo.map((itens, index) =>
+                    {item.pedidos.map((itens, index) =>
                       <div key={index} >
                         {itens.type === 'hamburger' ?
                           <div>
@@ -75,17 +53,20 @@ function Delivery() {
                           <p>Quantidade:{itens.count} - {itens.name}</p>
                         }
                       </div>
-                    )}
-  
+                    )}  
                   </div>
                   <Button onClick={() => finish(item)}> Entregue </Button>
-                </div>
-                <div> O seu pedido ficou pronto em: {time(item)}</div>
+                </div><hr />
+                <div className="text-muted"> O seu pedido ficou pronto em: {different}</div>
               </div>
               : null}
           </div>
+        )
+      }
         )}
       </div>
+      </fieldset>
+      </form>
     );
   }
 

@@ -28,39 +28,6 @@ function Atendimento() {
 
   }, []);
 
-  const sendRequest = () => {
-    
-    if (pedidos.length && table && client) {
-      db.collection('pedidos').add({
-        pedidos,
-        total,
-        client,
-        table: parseInt(table),
-        timeSend: new Date(),
-        timeDateS: new Date().getDate(),
-        timeHourS: new Date().getHours(),
-        timeMinS: new Date().getMinutes(),
-        timeSecS: new Date().getSeconds(),
-        status: 'inProgress',
-      })
-        .then(() => {
-          setPedidos([])
-          setTotal(0)
-          setClient('')
-          setTable('')
-        })
-    }
-    else if (!pedidos.length) {
-      alert('Selecione um produto para gerar o pedido')
-    }
-    else if (!table) {
-      alert('Insira o número da mesa')
-    }
-    else if (!client) {
-      alert('Insira o nome do cliente')
-    }
-  }
-
   const items = (addItem) => {
       if (!pedidos.includes(addItem)) {
           addItem.count = 1
@@ -80,6 +47,36 @@ function Atendimento() {
     const updateTotal = total - (addItem.price * addItem.count);
     setTotal(updateTotal)
   }
+
+  const sendRequest = () => {
+    
+    if (pedidos.length && table && client) {
+      db.collection('pedidos').add({
+        pedidos,
+        total,
+        client,
+        table: parseInt(table),
+        timeSend: new Date().getTime(),
+        status: 'inProgress',
+      })
+        .then(() => {
+        })
+        setPedidos([])
+        setTotal(0)
+        setClient('')
+        setTable('')
+    }
+    else if (!pedidos.length) {
+      alert('Selecione um produto para gerar o pedido')
+    }
+    else if (!table) {
+      alert('Insira o número da mesa')
+    }
+    else if (!client) {
+      alert('Insira o nome do cliente')
+    } 
+  }
+
 
   return (
     <>
@@ -111,11 +108,23 @@ function Atendimento() {
           </div>
           <section>
             <div>
-              {pedidos.map(orders => <ResumeItem key={orders.id} name={orders.name} price={orders.price} count={orders.count} onClick={(event) => deleteItem(orders, event)} />)}
+              {pedidos.map((orders, index) => 
+              <div key={index}>
+              <ResumeItem 
+                key={orders.id} 
+                name={orders.name} 
+                price={orders.price} 
+                count={orders.count} 
+                onClick={(event) => deleteItem(orders, event)} 
+                />
+                </div>
+                )}                
             </div>
             <p>Total: R${pedidos.reduce((acc, curr) => acc + curr.price * curr.count, 0) + ",00"} </p>
             <div>
+            <span className="btn-group-addon" >
             <Button className='btn btn-primary' onClick={sendRequest}> Enviar Pedido </Button>
+            </span>
             </div>
           </section>
         </div>
