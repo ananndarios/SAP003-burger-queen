@@ -8,7 +8,7 @@ const Menu = (props) => {
     return (
 
         <div className="col-xs-12">
-            <Button className='btn btn-default btn-lg' onClick={props.onClick}> 
+            <Button className='btn btn-primary' onClick={props.onClick}> 
                 <span className='menu-name'> {props.name}</span>
                 <span className='menu-price'> R$ {props.price}</span>
                 {

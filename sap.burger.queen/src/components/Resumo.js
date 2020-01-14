@@ -5,14 +5,14 @@ const ResumeItem = (props) => {
     return (
         <>
             <div className="resume-item">
-                <span className="menu-name menu-text">{props.name}</span>
-                <span className="menu-price menu-text">R$ {props.price}</span>
+                <span className="text-muted"> {props.name} </span>
+                <span className="text-muted"> R$ {props.price}</span>
                 {
                     props.count
-                        ? <span className="menu-price menu-text">Quantidade: {props.count}</span>
+                        ? <span className="text-muted"> Quantidade: {props.count}</span>
                         : null
                 }
-                <Button className="btn btn-primary" onClick={props.onClick}> </Button>
+                <Button className="btn btn-muted" onClick={props.onClick}>  Delete </Button>
             </div>
 
         </>

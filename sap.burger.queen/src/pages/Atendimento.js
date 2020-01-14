@@ -87,7 +87,7 @@ function Atendimento() {
         <legend>Menu</legend>
         <Breakfast menu={menu} onClick={items}/>
         <FullDay menu={menu} onClick={items} />
-        <div className="col-xs-12">
+          <div className="col-xs-12">
           <legend> Meus Pedidos</legend>
           <div className="input-group ">
             <span className="input-group-addon"><i className="fa fa-user-circle"></i></span>
@@ -115,11 +115,10 @@ function Atendimento() {
             </div>
             <p>Total: R${pedidos.reduce((acc, curr) => acc + curr.price * curr.count, 0) + ",00"} </p>
             <div>
-            <Button className='btn-primary' onClick={sendRequest}> Enviar Pedido </Button>
+            <Button className='btn btn-primary' onClick={sendRequest}> Enviar Pedido </Button>
             </div>
           </section>
         </div>
-
       </form>
     </>
   );
